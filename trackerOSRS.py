@@ -1,17 +1,4 @@
 import sqlite3
-# from sqlite3 import Error
-
-# def create_connection(path):
-# 	connection = None
-# 	try:
-# 		connection = sqlite3.connect(path)
-# 		print("DB Connection success")
-# 	except Error as e:
-# 		print(f"The error '{e}' occurred")
-
-# 	return connection
-
-# connection = create_connection("test_app.sqlite")
 
 con = sqlite3.connect("test5.db")
 cur = con.cursor()
