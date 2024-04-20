@@ -29,6 +29,7 @@ headers = {
 }
 
 response = requests.get('https://prices.runescape.wiki/api/v1/osrs/5m', headers=headers)
+response = requests.get('https://static.runelite.net/api/runelite-api/net/runelite/api/ItemID.html')
 
 if response.status_code == 200:
 	print ("connected")
@@ -40,6 +41,9 @@ elif response.status_code == 404:
 else:
 	print ("failed to connect")
 
-print (type(data))
-print(data["data"]["2"]) # we want the data, and the second identifier is the item ID
+print (data)
+#rint (type(data))
+#itemData = data["data"]["2"]
+#print(itemData)
+#print(type(itemData)) # we want the data, and the second identifier is the item ID
 # is a dict, so need to transform this dict into a table
