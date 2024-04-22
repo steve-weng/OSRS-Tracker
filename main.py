@@ -42,7 +42,7 @@ def searchItem(itemID, amount):
 
     # double check the pickled file and table saved
     df = pd.read_pickle("ItemIDs.pkl")
-    filtered_df = df.loc[df[1].str.contains('JUST')]
+    filtered_df = df.loc[df['Name'].str.contains('JUST')]
     print(filtered_df)
 
     #itemData = data["data"][itemID]
