@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form action = "/" method="get">
+    <label for="itemID">Enter Item ID</label>
+    <input type="text" name="itemID" id="itemID" size="25" placeholder="Item ID"> 
+      <label>Alert Threshold:</label>  
+      <input type="number" name="amount" placeholder="Amount" id="amount">
+      <select name="equality" id="equality">
+        <option value=">=">>=</option>
+        <option value="<="><=</option>
+      </select>
+      <input type="submit" value="Submit">  
+</form>  
+
+
+{% if result %}
+<textarea cols="50" rows="4" name="result">{{ result }}</textarea>
+{% endif %}
+
+</body>
+</html>
