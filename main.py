@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request, jsonify, render_template
+import pandas as pd
 import requests
 
 app = Flask(__name__)
@@ -21,26 +22,31 @@ def hello():
 
 def searchItem(itemID, amount):
 
-    headers = {
+    # headers = {
     
-    'User-Agent' : 'learning to make a price alert',
-    'From': 'testing@gmail.com'
-    }
+    # 'User-Agent' : 'learning to make a price alert',
+    # 'From': 'testing@gmail.com'
+    # }
 
 
-    response = requests.get('https://prices.runescape.wiki/api/v1/osrs/5m', headers=headers)
+    # response = requests.get('https://prices.runescape.wiki/api/v1/osrs/5m', headers=headers)
 
-    if response.status_code == 200:
-        #print ("connected")
-        #print ("---------------------------------")
-        data = response.json()
-    elif response.status_code == 404:
-        return "unable to reach"
-    else:
-        return "failed to connect"
+    # if response.status_code == 200:
+    #     #print ("connected")
+    #     #print ("---------------------------------")
+    #     data = response.json()
+    # elif response.status_code == 404:
+    #     return "unable to reach"
+    # else:
+    #     return "failed to connect"
 
-    itemData = data["data"][itemID]
-    if int(amount) <= itemData['avgHighPrice']:
-        return "threshold " + amount + " is set.  Current high price is " + str(itemData['avgHighPrice']) + ".  Low is " + str(itemData['avgLowPrice'])
-    else:
-        return itemData
+    # double check the pickled file and table saved
+    df = pd.read_pickle("ItemIDs.pkl")
+    filtered_df = df.loc[df[1].str.contains('JUST')]
+    print(filtered_df)
+
+    #itemData = data["data"][itemID]
+    #if int(amount) <= itemData['avgHighPrice']:
+    #    return "threshold " + amount + " is set.  Current high price is " + str(itemData['avgHighPrice']) + ".  Low is " + str(itemData['avgLowPrice'])
+    #else:
+    #    return itemData
