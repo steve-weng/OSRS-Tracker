@@ -7,7 +7,14 @@
 <body>
 <form action = "/" method="get">
     <label for="itemID">Enter Item ID</label>
-    <input type="text" name="itemID" id="itemID" size="25" placeholder="Item ID"> 
+    <!--<input type="text" name="itemID" id="itemID" size="25" placeholder="Item ID"> -->
+    <input type="text" name="itemID" id="itemID" size="25" placeholder="Item ID" list="items">
+    <datalist id="items">
+    {% for i in items %}
+      <option value='{{ i }}'></option>
+    {% endfor %}
+    </datalist>
+
       <label>Alert Threshold:</label>  
      <select name="equality" id="equality">
         <option value=">=">>=</option>

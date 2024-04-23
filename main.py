@@ -5,11 +5,17 @@ import requests
 
 app = Flask(__name__)
 
+df1 = pd.read_pickle("ItemIDs.pkl")
+filtered_df1 = df1.loc[df1['Name'].str.contains('JUST')]
+print(filtered_df1)
+
 @app.route('/', methods=['GET', 'POST'])
 def index(result=None):
     if request.args.get('itemID', None):
         result = searchItem(request.args['itemID'], request.args['amount'])
-    return render_template('main.html', result=result)
+    
+    itemList = list(df1['Name'])
+    return render_template('main.html', result=result, items = itemList)
 
 
 def process_text(text):
