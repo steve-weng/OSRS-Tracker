@@ -47,9 +47,13 @@ def searchItem(itemID, amount):
     #     return "failed to connect"
 
     # double check the pickled file and table saved
-    df = pd.read_pickle("ItemIDs.pkl")
-    filtered_df = df.loc[df['Name'].str.contains('JUST')]
-    print(filtered_df)
+    print(itemID)
+    print(amount)
+    itemRow = df1.loc[df1['Name'] == itemID]
+    print(itemRow)
+    itemIDNum = itemRow['itemID']
+    itemIDNum = itemIDNum.iloc[0]
+    print(itemIDNum)
 
     #itemData = data["data"][itemID]
     #if int(amount) <= itemData['avgHighPrice']:
