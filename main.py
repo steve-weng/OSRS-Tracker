@@ -20,6 +20,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SECRET_KEY'] = 'this is a secret key '
 db = SQLAlchemy(app)
 
+df1 = pd.read_pickle("ItemIDs.pkl")
 
 con = sqlite3.connect("trackedItems.db")
 cur = con.cursor()
@@ -127,13 +128,25 @@ def addItem(result=None):
         if request.args.get('itemID', None):
             result = searchItem(request.args['itemID'], request.args['amount'])
         
-        df1 = pd.read_pickle("ItemIDs.pkl")
-        filtered_df1 = df1.loc[df1['Name'].str.contains('JUST')]
-        print(filtered_df1)
         itemList = list(df1['Name'])
+
+
+# test item, we'll get this from the front end
+# itemID = "13190"
+# itemName = "Old school bond"
+# high_price = 1000 # and these from scraping the site
+# low_price = 999
+
+# cur.execute("INSERT INTO items VALUES (?, ?, ?, ?)", 
+# 	(itemID, itemName, high_price, low_price))
+
+# for row in cur.execute("SELECT * FROM items"):
+# 	print(row)
+
         return render_template('main.html', result=result, items = itemList)
 
     else:
+        print("not authenticated")
         return render_template("incorrect.html")
 
 def searchItem(itemID, amount):
