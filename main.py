@@ -3,15 +3,13 @@ from flask import request, jsonify, render_template
 import pandas as pd
 import requests
 
-app = Flask(__name__)
+import sqlite3 # for storing data for what each user wants to track
 
-df1 = pd.read_pickle("ItemIDs.pkl")
-filtered_df1 = df1.loc[df1['Name'].str.contains('JUST')]
-print(filtered_df1)
+app = Flask(__name__)
 
 from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required
+from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
@@ -21,6 +19,28 @@ bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SECRET_KEY'] = 'this is a secret key '
 db = SQLAlchemy(app)
+
+
+con = sqlite3.connect("trackedItems.db")
+cur = con.cursor()
+
+#cur.execute("CREATE TABLE trackedItems(userID,itemID,itemIDNum, high_price, low_price, threshold)")
+
+#res = cur.execute("SELECT name FROM sqlite_master")
+#print(res.fetchone())
+
+# test item, we'll get this from the front end
+# itemID = "13190"
+# itemName = "Old school bond"
+# high_price = 1000 # and these from scraping the site
+# low_price = 999
+
+# cur.execute("INSERT INTO items VALUES (?, ?, ?, ?)", 
+# 	(itemID, itemName, high_price, low_price))
+
+# for row in cur.execute("SELECT * FROM items"):
+# 	print(row)
+
 
 
 class User(db.Model, UserMixin):
@@ -101,22 +121,20 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-
-
-
-
 @app.route('/addItem', methods=['GET', 'POST'])
 def addItem(result=None):
-    if request.args.get('itemID', None):
-        result = searchItem(request.args['itemID'], request.args['amount'])
-    
-    itemList = list(df1['Name'])
-    return render_template('main.html', result=result, items = itemList)
+    if current_user.is_authenticated:
+        if request.args.get('itemID', None):
+            result = searchItem(request.args['itemID'], request.args['amount'])
+        
+        df1 = pd.read_pickle("ItemIDs.pkl")
+        filtered_df1 = df1.loc[df1['Name'].str.contains('JUST')]
+        print(filtered_df1)
+        itemList = list(df1['Name'])
+        return render_template('main.html', result=result, items = itemList)
 
-
-def process_text(text):
-    return "FOO" + text
-
+    else:
+        return render_template("incorrect.html")
 
 def searchItem(itemID, amount):
 
