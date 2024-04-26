@@ -129,6 +129,8 @@ def addItem(result=None):
             result = searchItem(request.args['itemID'], request.args['amount'])
         
         itemList = list(df1['Name'])
+        print(current_user)
+        print(type(current_user))
 
 
 # test item, we'll get this from the front end
@@ -136,13 +138,18 @@ def addItem(result=None):
 # itemName = "Old school bond"
 # high_price = 1000 # and these from scraping the site
 # low_price = 999
+#cur.execute("CREATE TABLE trackedItems(userID,itemID,itemIDNum, high_price, low_price, threshold)")
 
 # cur.execute("INSERT INTO items VALUES (?, ?, ?, ?)", 
 # 	(itemID, itemName, high_price, low_price))
 
 # for row in cur.execute("SELECT * FROM items"):
 # 	print(row)
+#cursor.execute("INSERT INTO table VALUES (%s, %s, %s)", (var1, var2, var3))
 
+       # cur.execute("INSERT INTO trackedItems VALUES (username, itemID, high_price, low_price, threshold)")
+        #for row in cur.execute("SELECT * FROM trackedItems"):
+        #    print(row)
         return render_template('main.html', result=result, items = itemList)
 
     else:
@@ -169,7 +176,6 @@ def searchItem(itemID, amount):
     # else:
     #     return "failed to connect"
 
-    # double check the pickled file and table saved
     print(itemID)
     print(amount)
     itemRow = df1.loc[df1['Name'] == itemID]

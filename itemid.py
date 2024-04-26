@@ -1,3 +1,6 @@
+### run this only if you need to update item ID or new items are released (that you want to track)
+### it updates the pickle file with item IDs based off runelite's GE API
+
 import pandas as pd
 
 tables = pd.read_html('https://static.runelite.net/api/runelite-api/constant-values.html')
